@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>web | sederhana</title>
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<style>
+    #result {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 90vh;
+    }
+    
+    #content {
+        font-size: 2em;
+        padding: 15px;
+        font-weight: 500;
+    }
+    
+    #type {
+        text-align: center;
+        font-style: italic;
+        background-color: red;
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+    }
+</style>
+<body>
+    <ons-page>
+        <ons-toolbar>
+            <div class="center">
+                Ramdani
+            </div>
+            <div class="right">
+                <ons-toolbar-button>
+                    <a download id="screenshoot">
+                        <ons-icon icon="md-camera"></ons-icon>
+                    </a>
+                </ons-toolbar-button>
+            </div>
+        </ons-toolbar>
+
+        <ons-fab onclick="generate()" position="bottom right">
+            <ons-icon icon="md-plus"></ons-icon>
+        </ons-fab>
+
+        <div id="result">
+            <h1 id="content"></h1>
+            <p id="type"></p>
+        </div>
+    </ons-page>
+
+    <script>
+        async function generate() {
+            const screenshoot = document.getElementById("screenshoot")
+            const result = document.getElementById("result")
+            const content = document.getElementById("content")
+            const type = document.getElementById("type")
+            
+            const url = "https://www.boredapi.com/api/activity"
+            const res = await fetch(url);
+            const api = await res.json();
+            
+            init = 0;
+
+            
+
+            content.textContent = api.activity;
+            type.textContent = api.type;
+            type.style.display = "block";
+            
+            screenshoot.addEventListener("click", () => {
+                
+                html2canvas(result).then(x => {
+                    
+                    init && window.location.reload();
+                    
+                    screenshoot.setAttribute("href", x.toDataURL("image/png"));
+                    
+                    screenshoot.textContent = "Save"
+                    
+                    init++
+                    
+                })
+
+            });
+        }
+    </script>
+</body>
+</html>
