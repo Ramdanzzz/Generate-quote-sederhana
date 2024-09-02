@@ -64,7 +64,7 @@
             const content = document.getElementById("content")
             const type = document.getElementById("type")
             
-            const url = "https://www.boredapi.com/api/activity"
+            const url = "https://api.quotable.io/random"
             const res = await fetch(url);
             const api = await res.json();
             
@@ -72,7 +72,7 @@
 
             
 
-            content.textContent = api.activity;
+            content.textContent = api.content;
             type.textContent = api.type;
             type.style.display = "block";
             
